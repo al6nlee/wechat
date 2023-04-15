@@ -68,8 +68,8 @@ class Handle(object):
                     params = (fromUser, toUser, create_time, msg_type, msg_id)
                     # 执行sql语句
                     cur.execute(sql, params)
-                    id = cur.lastrowid
                     conn.commit()
+                    id = cur.lastrowid
                 except:
                     conn.rollback()
                 print('数据增加成功')
