@@ -61,10 +61,12 @@ class Handle(object):
                 msg_id = recMsg.MsgId
 
                 cursor = conn.cursor()
-                sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
-                      "values(%s,%s,%s,%s,%s)"
-                ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
+                sql = f"insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
+                      f"values({toUser},{fromUser},{create_time},{msg_type},{msg_id})"
+                # ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
+                ret = cursor.execute(sql)
                 conn.commit()
+
                 row = cursor.fetchone()
                 print("sql:", sql)
                 print("result:", ret)
