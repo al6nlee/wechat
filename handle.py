@@ -58,8 +58,7 @@ class Handle(object):
                 fromUser = recMsg.ToUserName
                 print("type CreateTime", type(recMsg.CreateTime))
                 create_time = int(recMsg.CreateTime)
-                print("type MsgType", type(recMsg.MsgType))
-                msg_type = int(recMsg.MsgType)
+                msg_type = recMsg.MsgType
                 print("type MsgId", type(recMsg.MsgId))
                 msg_id = int(recMsg.MsgId)
 
