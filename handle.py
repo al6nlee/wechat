@@ -59,20 +59,27 @@ class Handle(object):
                 create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
-                cursor = conn.cursor()
-                sql = f"insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
-                      f"values('{fromUser}','{toUser}','{create_time}','{msg_type}','{msg_id}')"
-                print("sql:", sql)
-                # ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
-                ret = cursor.execute(sql)
-                row = cursor.fetchone()
-                conn.commit()
+                # 打开游标
+                cur = conn.cursor()
+                # 编写sql语句
+                try:
+                    sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
+                          "values(%s,%s,%s,%s,%s,%s,%s)"
+                    params = (fromUser, toUser, create_time, msg_type, msg_id)
+                    # 执行sql语句
+                    cur.execute(sql, params)
+                    id = cur.lastrowid
+                    conn.commit()
+                except:
+                    conn.rollback()
+                print('数据增加成功')
+                # 关闭游标
+                cur.close()
+                # 关闭连接
+                conn.close()
 
-                print("result:", ret)
-                print("sql_row:", row)
 
                 if recMsg.MsgType == 'text':
-
                     content = "test"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
