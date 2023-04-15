@@ -58,6 +58,7 @@ class Handle(object):
                 create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
+
                 conn = pymysql.connect(**config)
                 # 打开游标
                 cur = conn.cursor()
@@ -69,8 +70,7 @@ class Handle(object):
                     # 执行sql语句
                     cur.execute(sql, params)
                     conn.commit()
-                    id = cur.lastrowid
-                    print("id:", id)
+                    obj_id = cur.lastrowid
                 except Exception as err:
                     print(err)
                     conn.rollback()
@@ -82,6 +82,25 @@ class Handle(object):
 
 
                 if recMsg.MsgType == 'text':
+                    conn = pymysql.connect(**config)
+                    # 打开游标
+                    cur = conn.cursor()
+                    # 编写sql语句
+                    try:
+                        sql = f"update tb_wechat_text set content='{recMsg.Content}' where id={obj_id}"
+                        # 执行sql语句
+                        cur.execute(sql)
+                        conn.commit()
+                        id = cur.lastrowid
+                    except Exception as err:
+                        print(err)
+                        conn.rollback()
+                    print('更新数据成功')
+                    # 关闭游标
+                    cur.close()
+                    # 关闭连接
+                    conn.close()
+
                     content = "test"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
