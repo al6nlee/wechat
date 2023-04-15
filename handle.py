@@ -54,8 +54,8 @@ class Handle(object):
             print("Handle Post webdata is ", webData)  # 后台打日志
             recMsg = receive.parse_xml(webData)
             if isinstance(recMsg, receive.Msg):
-                toUser = recMsg.FromUserName
-                fromUser = recMsg.ToUserName
+                fromUser = recMsg.FromUserName
+                toUser = recMsg.ToUserName
                 create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
@@ -63,7 +63,7 @@ class Handle(object):
 
                 cursor = conn.cursor()
                 sql = f"insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
-                      f"values({toUser},{fromUser},{create_time},{msg_type},{msg_id})"
+                      f"values({fromUser},{toUser},{create_time},{msg_type},{msg_id})"
                 # ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
                 ret = cursor.execute(sql)
                 conn.commit()
