@@ -62,7 +62,7 @@ class Handle(object):
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
                 if recMsg.MsgType == 'image':
-                    sql = "update tb_wechat_text set pic_url=%s media_id=%s where id=%s"
+                    sql = "update tb_wechat_text set pic_url=%s, media_id=%s where id=%s"
                     params = (recMsg.PicUrl, recMsg.MediaId, obj_id)
                     update_sql(sql, params)
                     mediaId = recMsg.MediaId
