@@ -7,7 +7,7 @@ import pymysql
 from src.utils.conf_section import get_conf_section
 
 config = {'host': get_conf_section("MYSQL", "HOST"),
-          'port': get_conf_section("MYSQL", "PORT"),
+          'port': int(get_conf_section("MYSQL", "PORT")),
           'user': get_conf_section("MYSQL", "USER"),
           'passwd': get_conf_section("MYSQL", "PASSWORD"),
           'db': get_conf_section("MYSQL", "DB")
