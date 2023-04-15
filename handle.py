@@ -50,19 +50,19 @@ class Handle(object):
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
 
-                sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
+                sql = "insert tb_wechat_receive(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
                       "values(%s,%s,%s,%s,%s)"
                 params = (fromUser, toUser, create_time, msg_type, msg_id)
                 ret, obj_id = insert_sql(sql, params)
                 if recMsg.MsgType == 'text' and ret:
-                    sql = "update tb_wechat_text set content=%s where id=%s"
+                    sql = "update tb_wechat_receive set content=%s where id=%s"
                     params = (recMsg.Content.decode("utf-8"), obj_id)
                     update_sql(sql, params)
                     content = "媳妇，I 🐅 you"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
                 if recMsg.MsgType == 'image':
-                    sql = "update tb_wechat_text set pic_url=%s, media_id=%s where id=%s"
+                    sql = "update tb_wechat_receive set pic_url=%s, media_id=%s where id=%s"
                     params = (recMsg.PicUrl, recMsg.MediaId, obj_id)
                     update_sql(sql, params)
                     mediaId = recMsg.MediaId
