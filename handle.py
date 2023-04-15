@@ -3,12 +3,21 @@
 
 import hashlib
 import logging
+import pymysql
+from src.utils.conf_section import get_conf_section
+
+config = {'host': get_conf_section("MYSQL", "HOST"),
+          'port': get_conf_section("MYSQL", "PORT"),
+          'user': get_conf_section("MYSQL", "USER"),
+          'passwd': get_conf_section("MYSQL", "PASSWORD"),
+          'db': get_conf_section("MYSQL", "DB")
+          }
+conn = pymysql.connect(**config)
 
 import web
 
 import receive
 import reply
-from src.utils.conf_section import get_conf_section
 
 
 class Handle(object):
@@ -47,6 +56,20 @@ class Handle(object):
             if isinstance(recMsg, receive.Msg):
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
+                print("type CreateTime", type(recMsg.CreateTime))
+                create_time = int(recMsg.CreateTime)
+                print("type MsgType", type(recMsg.MsgType))
+                msg_type = int(recMsg.MsgType)
+                print("type MsgId", type(recMsg.MsgId))
+                msg_id = int(recMsg.MsgId)
+
+                cursor = conn.cursor()
+                sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
+                      "values(%s,%s,%s,%s,%s)"
+                cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
+                row = cursor.fetchone()
+                print("sql_row:", row)
+
                 if recMsg.MsgType == 'text':
                     content = "test"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
