@@ -64,6 +64,7 @@ class Handle(object):
                 sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
                       "values(%s,%s,%s,%s,%s)"
                 ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
+                conn.commit()
                 row = cursor.fetchone()
                 print("sql:", sql)
                 print("result:", ret)
