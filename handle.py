@@ -102,7 +102,7 @@ class Handle(object):
                     # 关闭连接
                     conn.close()
 
-                    content = "test"
+                    content = "I 🐅 you"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
                 if recMsg.MsgType == 'image':
