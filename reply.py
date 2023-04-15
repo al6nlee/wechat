@@ -27,7 +27,7 @@ class TextMsg(Msg):
                 <Content><![CDATA[{Content}]]></Content>
             </xml>
             """
-        print(XmlForm)
+        print(XmlForm.format(**self.__dict))
         return XmlForm.format(**self.__dict)
 
 class ImageMsg(Msg):
