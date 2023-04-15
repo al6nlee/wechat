@@ -2,6 +2,8 @@
 # filename: handle.py
 
 import hashlib
+import logging
+
 import web
 
 from src.utils.conf_section import get_conf_section
@@ -18,6 +20,7 @@ class Handle(object):
             nonce = data.nonce
             echostr = data.echostr
             token = get_conf_section("APP", "TOKEN") #请按照公众平台官网\基本配置中信息填写
+            logging.debug(f"日志打印：{token}")
 
             list = [token, timestamp, nonce]
             list.sort()
