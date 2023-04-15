@@ -88,8 +88,8 @@ class Handle(object):
                     # 编写sql语句
                     try:
                         print("obj_id:", obj_id)
-                        print("Content:", recMsg.Content)
-                        sql = f"update tb_wechat_text set content='{recMsg.Content}' where id={obj_id}"
+                        print("Content:", recMsg.Content.decode("utf-8"))
+                        sql = f"""update tb_wechat_text set content='{recMsg.Content.decode("utf-8")}' where id={obj_id}"""
                         # 执行sql语句
                         cur.execute(sql)
                         conn.commit()
