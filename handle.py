@@ -26,6 +26,8 @@ class Handle(object):
             list.sort()
             sha1 = hashlib.sha1()
             map(sha1.update, list)
+            # hashcode = sha1.hexdigest()  # python2的写法
+            sha1.update("".join(list).encode('utf-8'))  # python3 写法
             hashcode = sha1.hexdigest()
             print("handle/GET func: hashcode, signature: ", hashcode, signature)
             if hashcode == signature:
