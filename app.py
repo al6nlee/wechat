@@ -5,7 +5,7 @@ from src.handle.handle import Handle
 
 
 urls = (
-    '', 'Handle',
+    '/wx', 'Handle',
 )
 
 if __name__ == '__main__':
