@@ -64,12 +64,13 @@ class Handle(object):
                 cursor = conn.cursor()
                 sql = f"insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
                       f"values({fromUser},{toUser},{create_time},{msg_type},{msg_id})"
+                print("sql:", sql)
                 # ret = cursor.execute(sql, (toUser, fromUser, create_time, msg_type, msg_id))
                 ret = cursor.execute(sql)
                 conn.commit()
 
                 row = cursor.fetchone()
-                print("sql:", sql)
+
                 print("result:", ret)
                 print("sql_row:", row)
 
