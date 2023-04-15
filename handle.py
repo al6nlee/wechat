@@ -56,11 +56,9 @@ class Handle(object):
             if isinstance(recMsg, receive.Msg):
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
-                print("type CreateTime", type(recMsg.CreateTime))
-                create_time = int(recMsg.CreateTime)
+                create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
-                print("type MsgId", type(recMsg.MsgId))
-                msg_id = int(recMsg.MsgId)
+                msg_id = recMsg.MsgId
 
                 cursor = conn.cursor()
                 sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
