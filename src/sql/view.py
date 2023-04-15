@@ -9,12 +9,13 @@ config = {'host': get_conf_section("MYSQL", "HOST"),
           'db': get_conf_section("MYSQL", "DB")
           }
 
+
 def query_sql(sql, params):
     pass
 
 
 def insert_sql(sql, params):
-    print(sql.format(params))
+    print(sql % params)
     conn = pymysql.connect(**config)
     # 打开游标
     cur = conn.cursor()
@@ -37,8 +38,9 @@ def insert_sql(sql, params):
     conn.close()
     return ret, obj_id
 
+
 def update_sql(sql, params):
-    print(sql.format(params))
+    print(sql % params)
     conn = pymysql.connect(**config)
     # 打开游标
     cur = conn.cursor()
