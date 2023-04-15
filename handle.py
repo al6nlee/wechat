@@ -93,7 +93,6 @@ class Handle(object):
                         # 执行sql语句
                         cur.execute(sql)
                         conn.commit()
-                        id = cur.lastrowid
                     except Exception as err:
                         print(err)
                         conn.rollback()
