@@ -64,7 +64,7 @@ class Handle(object):
                 # 编写sql语句
                 try:
                     sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
-                          "values(%s,%s,%s,%s,%s,%s,%s)"
+                          "values(%s,%s,%s,%s,%s)"
                     params = (fromUser, toUser, create_time, msg_type, msg_id)
                     # 执行sql语句
                     cur.execute(sql, params)
