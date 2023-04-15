@@ -71,7 +71,8 @@ class Handle(object):
                     conn.commit()
                     id = cur.lastrowid
                     print("id:", id)
-                except:
+                except Exception as err:
+                    print(err)
                     conn.rollback()
                 print('数据增加成功')
                 # 关闭游标
