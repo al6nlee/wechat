@@ -16,12 +16,12 @@ def parse_xml(web_data):
 
 class Msg(object):
     def __init__(self, xmlData):
+        self.MediaId = None
         self.ToUserName = xmlData.find('ToUserName').text
         self.FromUserName = xmlData.find('FromUserName').text
         self.CreateTime = xmlData.find('CreateTime').text
         self.MsgType = xmlData.find('MsgType').text
         self.MsgId = xmlData.find('MsgId').text
-        self.MediaId = xmlData.find('MediaId').text
 
 
 class TextMsg(Msg):
