@@ -70,6 +70,7 @@ class Handle(object):
                     cur.execute(sql, params)
                     conn.commit()
                     id = cur.lastrowid
+                    print("id:", id)
                 except:
                     conn.rollback()
                 print('数据增加成功')
