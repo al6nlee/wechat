@@ -12,7 +12,6 @@ config = {'host': get_conf_section("MYSQL", "HOST"),
           'passwd': get_conf_section("MYSQL", "PASSWORD"),
           'db': get_conf_section("MYSQL", "DB")
           }
-conn = pymysql.connect(**config)
 
 import web
 
@@ -59,6 +58,7 @@ class Handle(object):
                 create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
+                conn = pymysql.connect(**config)
                 # 打开游标
                 cur = conn.cursor()
                 # 编写sql语句
