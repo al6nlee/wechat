@@ -6,6 +6,8 @@ import logging
 
 import web
 
+import receive
+import reply
 from src.utils.conf_section import get_conf_section
 
 
@@ -19,7 +21,7 @@ class Handle(object):
             timestamp = data.timestamp
             nonce = data.nonce
             echostr = data.echostr
-            token = get_conf_section("APP", "TOKEN") #请按照公众平台官网\基本配置中信息填写
+            token = get_conf_section("APP", "TOKEN")  # 请按照公众平台官网\基本配置中信息填写
             print("token:", token)
 
             list = [token, timestamp, nonce]
@@ -36,3 +38,21 @@ class Handle(object):
                 return ""
         except Exception as Argument:
             return Argument
+
+    def POST(self):
+        try:
+            webData = web.data()
+            print("Handle Post webdata is ", webData)
+            # 后台打日志
+            recMsg = receive.parse_xml(webData)
+            if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text':
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                content = "test"
+                replyMsg = reply.TextMsg(toUser, fromUser, content)
+                return replyMsg.send()
+            else:
+                print("暂且不处理")
+                return "success"
+        except Exception as Argment:
+            return Argment
