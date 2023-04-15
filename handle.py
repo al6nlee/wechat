@@ -53,8 +53,8 @@ class Handle(object):
             print("Handle Post webdata is ", webData)  # 后台打日志
             recMsg = receive.parse_xml(webData)
             if isinstance(recMsg, receive.Msg):
-                fromUser = recMsg.FromUserName
-                toUser = recMsg.ToUserName
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
                 create_time = recMsg.CreateTime
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
