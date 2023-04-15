@@ -20,7 +20,7 @@ class Handle(object):
             nonce = data.nonce
             echostr = data.echostr
             token = get_conf_section("APP", "TOKEN") #请按照公众平台官网\基本配置中信息填写
-            logging.debug(f"日志打印：{token}")
+            print("token:", token)
 
             list = [token, timestamp, nonce]
             list.sort()
