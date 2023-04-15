@@ -2,16 +2,9 @@
 # filename: handle.py
 
 import hashlib
-import logging
 import pymysql
+from src.sql.view import insert_sql, update_sql
 from src.utils.conf_section import get_conf_section
-
-config = {'host': get_conf_section("MYSQL", "HOST"),
-          'port': int(get_conf_section("MYSQL", "PORT")),
-          'user': get_conf_section("MYSQL", "USER"),
-          'passwd': get_conf_section("MYSQL", "PASSWORD"),
-          'db': get_conf_section("MYSQL", "DB")
-          }
 
 import web
 
@@ -59,49 +52,14 @@ class Handle(object):
                 msg_type = recMsg.MsgType
                 msg_id = recMsg.MsgId
 
-                conn = pymysql.connect(**config)
-                # 打开游标
-                cur = conn.cursor()
-                # 编写sql语句
-                try:
-                    sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
-                          "values(%s,%s,%s,%s,%s)"
-                    params = (fromUser, toUser, create_time, msg_type, msg_id)
-                    # 执行sql语句
-                    cur.execute(sql, params)
-                    conn.commit()
-                    obj_id = cur.lastrowid
-                except Exception as err:
-                    print(err)
-                    conn.rollback()
-                print('数据增加成功')
-                # 关闭游标
-                cur.close()
-                # 关闭连接
-                conn.close()
-
-
-                if recMsg.MsgType == 'text':
-                    conn = pymysql.connect(**config)
-                    # 打开游标
-                    cur = conn.cursor()
-                    # 编写sql语句
-                    try:
-                        print("obj_id:", obj_id)
-                        print("Content:", recMsg.Content.decode("utf-8"))
-                        sql = f"""update tb_wechat_text set content='{recMsg.Content.decode("utf-8")}' where id={obj_id}"""
-                        # 执行sql语句
-                        cur.execute(sql)
-                        conn.commit()
-                    except Exception as err:
-                        print(err)
-                        conn.rollback()
-                    print('更新数据成功')
-                    # 关闭游标
-                    cur.close()
-                    # 关闭连接
-                    conn.close()
-
+                sql = "insert tb_wechat_text(from_user_name,to_user_name,create_time,msg_type, msg_id) " \
+                      "values(%s,%s,%s,%s,%s)"
+                params = (fromUser, toUser, create_time, msg_type, msg_id)
+                ret, obj_id = insert_sql(sql, params)
+                if recMsg.MsgType == 'text' and ret:
+                    sql = f"""update tb_wechat_text set content=%s where id=%s"""
+                    params = (recMsg.Content.decode("utf-8"), obj_id)
+                    update_sql(sql, params)
                     content = "媳妇，I 🐅 you"
                     replyMsg = reply.TextMsg(toUser, fromUser, content)
                     return replyMsg.send()
